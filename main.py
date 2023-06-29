@@ -1,15 +1,12 @@
-import pybaseball as pyb
 from config import Config
 import scraper as scrpr
-
-def fix_name(player_name):
-    f_name = player_name[0]
-    l_name = player_name[1]
-    ret = f_name[0].upper() + f_name[1:] + " " + l_name[0].upper() + l_name[1:]
-    print(ret)
-    return ret
+import os
 
 if __name__ == "__main__":
-    batters = Config.batters.value
-    for p_name in batters:
-        print(scrpr.get_batter_data(p_name))
+    if not os.path.exists("data/batter_data.csv"):
+        batter_data = scrpr.get_batter_data(Config.year.value, Config.minPA.value)    
+        batter_data.to_csv("data/batter_data.csv")
+
+    if not os.path.exists("data/pitcher_data.csv"):
+        pitcher_data = scrpr.get_pitcher_data(Config.year.value, Config.minPA.value)
+        pitcher_data.to_csv("data/pitcher_data.csv")
