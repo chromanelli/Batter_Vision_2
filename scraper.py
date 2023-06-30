@@ -1,5 +1,4 @@
 import pybaseball as pyb
-from config import Config
 
 def get_batter_data(year, minPA):
     return pyb.statcast_batter_pitch_arsenal(year, minPA)
