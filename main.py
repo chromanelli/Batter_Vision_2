@@ -6,6 +6,7 @@ from input_handler import get_input
 
 if __name__ == "__main__":
     if not os.path.exists("data/batter_data.csv"):
+        os.mkdir("data")
         batter_data = scrpr.get_batter_data(Config.year, Config.minPA)
         batter_data = batter_data.sort_values("player_id")
         batter_data.to_csv("data/batter_data.csv")
