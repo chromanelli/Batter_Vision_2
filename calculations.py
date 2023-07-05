@@ -20,20 +20,33 @@ def make_dicts():
 
 def save_data(pitcher_best, batter_dfs):
     pitcher_id = str(pitcher_best["player_id"].values[0])
-    batting_team = str(batter_dfs[0]["team_name_alt"].values[0])
+    batting_team = batter_dfs[0]["team_name_alt"].values
+
+    if len(batting_team) == 0:
+        batting_team = str(batter_dfs[1]["team_name_alt"].values[0])
+    else:
+        batting_team = str(batting_team[0])
+    
     dirName = "data/" + str(Config.end_date) + "_" + pitcher_id + "_" + batting_team
+    Config.dirName = dirName
+
+    if not os.path.exists(Config.dirName):
+        os.mkdir(Config.dirName)
     
-    if not os.path.exists(dirName):
-        os.mkdir(dirName)
-    
-    pitcher_file = dirName + "/pitcher_best.csv"
+    pitcher_file = Config.dirName + "/pitcher_best.csv"
     pitcher_best.to_csv(pitcher_file)
 
     for df in batter_dfs:
-        pitchName = str(df["pitch_name"].values[0])
-        fileName = dirName + "/" + batting_team + "_vs_" + pitchName + ".csv"
+        pitchName = df["pitch_name"].values
+        
+        if len(pitchName) == 0:
+            continue
+        else:
+            pitchName = str(pitchName[0])
+
+        fileName = Config.dirName + "/" + batting_team + "_vs_" + pitchName + ".csv"
         df.to_csv(fileName)
-        print()
+        Config.batter_files.append(fileName)
 
     return
 
@@ -53,6 +66,7 @@ def calculate():
         team_highest_ba = team_highest_ba.sort_values(by="ba", ascending=False)
         batter_dfs.append(team_highest_ba)
         print(team_highest_ba)
-
+    
     save_data(pitcher_most_used, batter_dfs)
+
     return

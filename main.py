@@ -3,6 +3,8 @@ import scraper as scrpr
 import os
 from calculations import calculate
 from input_handler import get_input
+import analytics.analysis as anal
+from datetime import date
 
 if __name__ == "__main__":
     if not os.path.exists("data/batter_data.csv"):
@@ -18,3 +20,6 @@ if __name__ == "__main__":
 
     get_input()
     calculate()
+
+    if Config.end_date != date.today():
+        anal.analyze()
