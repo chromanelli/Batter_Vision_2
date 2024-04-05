@@ -1,8 +1,8 @@
 from datetime import date, timedelta
 
 class Config():
-    year = 2023
-    minPA = 25
+    year = 2024
+    minPA = 1
 
     # Change these as needed
     start_date = date.today() - timedelta(days=1) # Either 1 or 2
